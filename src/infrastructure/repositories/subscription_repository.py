@@ -1,7 +1,7 @@
 import typing as t
 
-from domain.subscriptions.entities import Subscription
 from application.interfaces.repositories import SubscriptionRepository
+from domain.subscriptions.entities import Subscription
 
 
 class InMemorySubscriptionRepository(SubscriptionRepository):
@@ -14,3 +14,9 @@ class InMemorySubscriptionRepository(SubscriptionRepository):
 
     def find_by_id(self, subscription_id: int) -> t.Optional[Subscription]:
         return self.subscriptions.get(subscription_id)
+
+    def delete(self, subscription_id: int):
+        if subscription_id in self.subscriptions:
+            del self.subscriptions[subscription_id]
+        else:
+            raise Exception("Subscription not found")
